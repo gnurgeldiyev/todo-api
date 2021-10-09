@@ -7,6 +7,9 @@ import {
 import {
   catchErrorWrapper,
 } from '../middlewares/errorHandler';
+import {
+  mongoObjectIdParam,
+} from '../middlewares/validationSchemas/mongoObjectIdParam';
 
 // eslint-disable-next-line new-cap
 const router = Router();
@@ -24,6 +27,12 @@ router.post(
   '/tasks',
   validator(addContactBodySchema, ValidationSource.BODY),
   catchErrorWrapper(Task.add),
+);
+
+router.delete(
+  '/tasks/:id',
+  validator(mongoObjectIdParam, ValidationSource.PARAM),
+  catchErrorWrapper(Task.delete),
 );
 
 export default router;
