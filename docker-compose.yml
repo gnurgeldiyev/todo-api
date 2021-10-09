@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    depends_on:
+      - mongodb
+    build: .
+    restart: unless-stopped
+    env_file: ./production.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    networks:
+      - app-network
+  mongodb:
+    image: mongo:5.0.2
+    restart: unless-stopped
+    env_file: ./production.env
+    ports:
+      - "27017:27017"
+    volumes:
+      - db:/data/db
+    networks:
+      - app-network
+
+volumes:
+  db:
+
+networks:
+  app-network:
+    driver: bridge
