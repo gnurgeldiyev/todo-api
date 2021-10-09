@@ -10,11 +10,14 @@ const taskSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['done', 'not-done'],
+    enum: ['in-progress', 'completed'],
+    default: 'in-progress',
   },
   dueDate: {
     type: Date,
   },
+}, {
+  timestamps: true,
 });
 
 export default taskSchema;

@@ -1,6 +1,7 @@
 import mongoose, {Connection} from 'mongoose';
 import logger from '../utils/logger';
 import {MONGODB_URI} from '../config';
+import taskSchema from './schemas/task';
 
 let dbConnection: Connection;
 /**
@@ -28,6 +29,8 @@ export function connectDB(): Connection {
     });
   });
 
+  dbConnection.model('Task', taskSchema, 'tasks');
+
   return dbConnection;
 }
 
@@ -42,4 +45,14 @@ export function getDBConnection(): Connection {
 
   const connection = connectDB();
   return connection;
+}
+
+
+/**
+ *  Close db connection
+ */
+export function closeDBConnection(): void {
+  if (dbConnection && dbConnection.readyState) {
+    dbConnection.close();
+  }
 }
